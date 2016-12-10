@@ -19,7 +19,6 @@ public class GameValues {
 
     // puck information
     private Vector2 puckVelocity;
-    private ServerListener sl;
     private PixelHockeyGame game;
     private GameScreen screen;
 
@@ -33,7 +32,6 @@ public class GameValues {
         opponentscore = 0;
 
         puckVelocity = new Vector2(0f, 0f);
-        sl = new ServerListener(game);
     }
 
     public void reset(){

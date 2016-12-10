@@ -96,7 +96,6 @@ public class GameScreen extends Screens {
 
         Gdx.input.setInputProcessor(new InputHandler(this));
         gvalues = new GameValues(game, this);
-        game.setSLScreen(this);
 
     }
 

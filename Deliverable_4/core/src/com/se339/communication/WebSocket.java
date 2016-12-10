@@ -4,9 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.math.Vector2;
 
+import com.se339.fileUtilities.UserReader;
 import com.se339.log.Log;
 import com.se339.pixel_hockey.PixelHockeyGame;
 import com.se339.pixel_hockey.screens.GameScreen;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,6 +21,7 @@ import java.net.UnknownHostException;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 /**
  * Created by Zach on 12/5/2016.
@@ -30,6 +36,7 @@ public class WebSocket {
     public WebSocket(){
         l = new Log("WebSocket");
         connectSocket();
+        serverListener();
     }
 
     public void searchResponse(PixelHockeyGame game){
@@ -59,8 +66,11 @@ public class WebSocket {
     public void connectSocket(){
         try{
             //socket = IO.socket("http://localhost:8000");
+
+            l.l("Connecting to Socket");
             socket = IO.socket("http://192.168.1.107:8000");
             socket.connect();
+            l.l("socket connected");
         } catch (Exception e) {
             l.e("Error connecting");
             e.printStackTrace();
@@ -70,4 +80,9 @@ public class WebSocket {
     public Socket getSocket(){
         return socket;
     }
+
+    public void serverListener(){
+
+    }
+
 }

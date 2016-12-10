@@ -38,6 +38,7 @@ public class SearchScreen extends MenuScreen {
 
         createHUD();
         setRenderColor(0.1f, 0.3f, 0.5f, 1);
+        joinGame();
     }
 //
 //    public void searchGame(){
@@ -53,8 +54,12 @@ public class SearchScreen extends MenuScreen {
 //
 //    }
 
-    public void joinGame(){
+//    @Override
+//    public void render(float delta) {
+//        super.render(delta);
+//    }
 
+    public void joinGame(){
         UserReader ur = new UserReader();
         JSONObject j = new JSONObject();
 
@@ -64,24 +69,9 @@ public class SearchScreen extends MenuScreen {
             log.e("JSONException");
         }
 
+        log.l("Emit 'joinGame'");
         game.getSocket().emit("joinGame", j);
-        game.getSocket().on("playerJoin", new Emitter.Listener() {
-            @Override public void call(Object ... args) {
-                JSONArray objects = (JSONArray) args[0];
-                try {
-                    String p2name = (String) objects.getJSONObject(0).getString("name");
-                    log.v(p2name, "Player name");
-                    game.setScreen( new GameScreen(game));
-                } catch (Exception e) {
-                    log.e("Failed to start new game");
-                }
-            }
-        });
     }
 
-//    @Override
-//    public void render(float delta) {
-//        super.render(delta);
-//    }
 
 }
