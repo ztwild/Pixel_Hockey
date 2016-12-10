@@ -12,7 +12,7 @@ import com.se339.log.Log;
 import com.se339.pixel_hockey.screens.GameScreen;
 import com.se339.pixel_hockey.screens.MainMenuScreen;
 
-import org.json.JSONArray;
+import org.json.*;
 
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
@@ -42,8 +42,9 @@ public class PixelHockeyGame extends Game {
         pWidth = Gdx.graphics.getWidth();
         wb = new WebSocket();
         initserver();
-        setScreen(new MainMenuScreen(this));
+        connect();
         g = this;
+        setScreen(new MainMenuScreen(this));
     }
 
     public static int getWidth(){
@@ -90,6 +91,23 @@ public class PixelHockeyGame extends Game {
                     log.e("Failed to start new game");
                 }
             }
-        });
+        }).on("message", new Emitter.Listener() {
+            @Override
+            public void call(Object ... args){
+                JSONArray objects = (JSONArray) args[0];
+                try {
+                    String message = (String) objects.getJSONObject(0).getString("message");
+                    log.v(message, "message");
+                    setScreen(new GameScreen(PixelHockeyGame.g));
+                } catch (Exception e) {
+                    log.e("Failed to start new game");
+                }
+            }
+        })
+        ;
+    }
+
+    public void connect(){
+        wb.getSocket().connect();
     }
 }
