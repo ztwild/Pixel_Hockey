@@ -1,11 +1,20 @@
 package com.se339.pixel_hockey.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.se339.fileUtilities.UserReader;
 import com.se339.log.Log;
 import com.se339.pixel_hockey.PixelHockeyGame;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 /**
  * Created by Zach on 12/5/2016.
@@ -31,23 +40,48 @@ public class SearchScreen extends MenuScreen {
         setRenderColor(0.1f, 0.3f, 0.5f, 1);
     }
 //
-    public void searchGame(){
-        log.l("Searching for game");
-        game.wb.joinGame();
-//        try{
-//            game.wb.getSock().readLine();
-//            game.setScreen(new GameScreen(game));
-//        }catch(IOException e){
-//            System.out.println("Could not recieve message from search");
-//        }
+//    public void searchGame(){
+//        log.l("Searching for game");
+//        game.wb.joinGame();
+////        try{
+////            game.wb.getSock().readLine();
+////            game.setScreen(new GameScreen(game));
+////        }catch(IOException e){
+////            System.out.println("Could not recieve message from search");
+////        }
+//
+//
+//    }
 
+    public void joinGame(){
 
+        UserReader ur = new UserReader();
+        JSONObject j = new JSONObject();
+
+        try {
+            j.put("name", ur.readName());
+        } catch (JSONException e) {
+            log.e("JSONException");
+        }
+
+        game.getSocket().emit("joinGame", j);
+        game.getSocket().on("playerJoin", new Emitter.Listener() {
+            @Override public void call(Object ... args) {
+                JSONArray objects = (JSONArray) args[0];
+                try {
+                    String p2name = (String) objects.getJSONObject(0).getString("name");
+                    log.v(p2name, "Player name");
+                    game.setScreen( new GameScreen(game));
+                } catch (Exception e) {
+                    log.e("Failed to start new game");
+                }
+            }
+        });
     }
 
-    @Override
-    public void render(float delta) {
-        super.render(delta);
-        searchGame();
-    }
+//    @Override
+//    public void render(float delta) {
+//        super.render(delta);
+//    }
 
 }

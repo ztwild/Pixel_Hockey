@@ -14,6 +14,10 @@ import com.se339.pixel_hockey.screens.GameScreen;
 import com.se339.pixel_hockey.screens.MainMenuScreen;
 import com.se339.pixel_hockey.screens.Screens;
 
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
+
 public class PixelHockeyGame extends Game {
 
     public SpriteBatch batch;
@@ -56,5 +60,9 @@ public class PixelHockeyGame extends Game {
 
     public void setSLScreen(GameScreen screen){
         sl.setScreen(screen);
+    }
+
+    public Socket getSocket(){
+        return wb.getSocket();
     }
 }
