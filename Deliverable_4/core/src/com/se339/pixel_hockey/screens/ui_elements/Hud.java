@@ -29,13 +29,13 @@ public class Hud extends Table {
         this.game = game;
         log = new Log("Hud Class");
 
-        log.a("Initializing buttonIcons");
+//        log.a("Initializing buttonIcons");
         buttonIcon friendIcon = new buttonIcon(FileList.image_friends_icon);
         buttonIcon statIcon = new buttonIcon(FileList.image_stat_icon);
         buttonIcon gameIcon = new buttonIcon(FileList.image_game_icon);
         buttonIcon homeIcon = new buttonIcon(FileList.image_home_icon);
 
-        log.a("adding to hud");
+//        log.a("adding to hud");
 //        hud = new Table();
         ImageButton homeBtn = homeIcon.getBtn();
         homeBtn.addListener(new ChangeListener() {
@@ -78,7 +78,7 @@ public class Hud extends Table {
     
 
     public void setHomePage(){
-        log.a("Relocating to home page");
+//        log.a("Relocating to home page");
         game.setScreen(new MainMenuScreen(game));
         if(onSearch){
             game.wb.endSearch();
@@ -87,7 +87,7 @@ public class Hud extends Table {
     }
 
     public void setFriendScreen(){
-        log.a("Relocating to friends page");
+//        log.a("Relocating to friends page");
         game.setScreen(new FriendScreen(game));
         if(onSearch){
             game.wb.endSearch();
@@ -96,7 +96,7 @@ public class Hud extends Table {
     }
 
     public void setStatScreen(){
-        log.a("Relocating to stat screen");
+//        log.a("Relocating to stat screen");
         String s = null;
         game.setScreen(new StatScreen(game, s));
         if(onSearch){
@@ -106,7 +106,7 @@ public class Hud extends Table {
     }
 
     public void findGame(){
-        log.a("Finding Game");
+//        log.a("Finding Game");
         game.setScreen(new SearchScreen(game));
         if(onSearch){
             game.wb.endSearch();

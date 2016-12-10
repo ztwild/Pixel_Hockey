@@ -24,7 +24,7 @@ public class MainMenuScreen extends MenuScreen {
 
         log = new Log("MainMenuScreen");
 
-        log.l("adding to Title");
+        //log.l("adding to Title");
         Table table = new Table();
         Label titleLabel = new Label("Welcome To\nPixel Hockey", skin);
         titleLabel.setFontScale(6,6);
@@ -63,7 +63,7 @@ public class MainMenuScreen extends MenuScreen {
         button.getLabel().setFontScale(4,4);
         button.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                log.a("Change name button clicked");
+                //log.a("Change name button clicked");
                 String name = nameTxt.getText();
                 if(name.length()> 0){
                     uReader.writeName(name);
