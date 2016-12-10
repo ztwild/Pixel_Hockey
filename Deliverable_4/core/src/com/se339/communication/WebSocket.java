@@ -68,7 +68,7 @@ public class WebSocket {
             //socket = IO.socket("http://localhost:8000");
 
             l.l("Connecting to Socket");
-            socket = IO.socket("http://192.168.1.107:8000");
+            socket = IO.socket("http://localhost:8000");
 //            socket = IO.socket("http://192.168.1.107:8000");
             socket.connect();
             l.l("socket connected");
