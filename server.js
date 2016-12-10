@@ -13,9 +13,13 @@ var server = http.createServer();
 net.createServer(function(sock){ 
   console.log('CONNECTED: ' + sock.remoteAddress +':'+ sock.remotePort);
     //Read socket info
-  
+//  setTimeout(function(){ }, 5000);
+//  sock.emit('message', {message:"see this shit"});
   //Player joining game
   sock.on('joinGame', function(data){
+//    console.log(data);
+//    sock.name = data.name;
+    console.log("Player attempting to join game");
     if(playerWaiting == undefined || playerWaiting.destroyed){
         console.log("Waiting to be paired");
         playerWaiting = sock;
