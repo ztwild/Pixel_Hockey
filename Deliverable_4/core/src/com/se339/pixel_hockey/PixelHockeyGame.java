@@ -14,7 +14,7 @@ import com.se339.pixel_hockey.screens.MainMenuScreen;
 
 import org.json.JSONArray;
 
-import io.socket.client.Socket;
+import io.socket.engineio.client.Socket;
 import io.socket.emitter.Emitter;
 
 public class PixelHockeyGame extends Game {
@@ -41,8 +41,8 @@ public class PixelHockeyGame extends Game {
         pHeight = Gdx.graphics.getHeight();
         pWidth = Gdx.graphics.getWidth();
         wb = new WebSocket();
-        initserver();
-        connect();
+        //initserver();
+        //connect();
         g = this;
         setScreen(new MainMenuScreen(this));
     }
@@ -74,40 +74,6 @@ public class PixelHockeyGame extends Game {
     }
 
     public void initserver(){
-        log.l("Createing Emitter Listener");
-        wb.getSocket().on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
 
-            }
-        }).on("playerJoin", new Emitter.Listener() {
-            @Override public void call(Object ... args) {
-                JSONArray objects = (JSONArray) args[0];
-                try {
-                    String p2name = (String) objects.getJSONObject(0).getString("name");
-                    log.v(p2name, "Player name");
-                    setScreen(new GameScreen(PixelHockeyGame.g));
-                } catch (Exception e) {
-                    log.e("Failed to start new game");
-                }
-            }
-        }).on("message", new Emitter.Listener() {
-            @Override
-            public void call(Object ... args){
-                JSONArray objects = (JSONArray) args[0];
-                try {
-                    String message = (String) objects.getJSONObject(0).getString("message");
-                    log.v(message, "message");
-                    setScreen(new GameScreen(PixelHockeyGame.g));
-                } catch (Exception e) {
-                    log.e("Failed to start new game");
-                }
-            }
-        })
-        ;
-    }
-
-    public void connect(){
-        wb.getSocket().connect();
     }
 }
