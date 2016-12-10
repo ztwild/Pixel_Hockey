@@ -1,0 +1,107 @@
+var net = require('net');
+var util = require('util');
+var path = require('path');
+var http = require('http');
+var fs   = require('fs');
+
+var HOST = '10.26.42.110';///Set host ip to computers ip addrress
+//var HOST = 'localhost';
+var PORT = 8000;
+
+////////////////////MySQL Connection
+  connection = mysql.createConnection({
+    host     : 'mysql.cs.iastate.edu',
+    user     : 'dbu309gp04',
+    password : 'L4eQcNWnFzS',
+    database : 'db309gp04'
+  });
+////////////////////Server
+var server = http.createServer();
+net.createServer(function(sock){ 
+  console.log('CONNECTED: ' + sock.remoteAddress +':'+ sock.remotePort);
+  connection.connect(function(err) {
+    console.log("Connected to MySQL!"); // connected! (unless `err` is set)
+  });
+  
+    sock.on('data', function(data) {
+      
+//      console.log("Parsing JSON:");
+//      console.log(data);
+//      var obj = JSON.parse(data);
+//      console.log("Getting func[0]");
+//      var func = obj.func[0];
+      
+      console.log("Buffer to string: "+data.toString('utf-8'));
+      var str = data.toString('utf-8');
+      var arr = str.split('&');
+      var func = arr[0];
+//      console.log("'"+arr[0]+"'")
+//      console.log(func == 'joingame');
+    
+      console.log("'If' block");
+      if(func == "login"){
+        sock.username = func.name;
+        fc.clearance(sock, arr);
+        fc.setOnline(sock);
+      }else if(func == "del"){
+        fc.del(sock, arr);
+      }else if(func == "reg"){
+        fc.register(sock, arr);
+      }else if(func == "getcard"){
+        fCard.getCard(sock, arr);
+      }else if(func == "getlib"){
+        fCard.getLib(sock, arr);
+      }else if(func == "getdeck"){
+        fCard.getDeck(sock, arr);
+      }else if(func == "getplayerdeck"){
+        fCard.getPlayerDeck(sock, arr);
+      }else if(func == "gethero"){
+        fCard.getHero(sock, arr);
+      }else if(func == "joingame"){
+        fGame.joinGame(sock);
+        console.log("Joining game")
+      }else if(func == "sendmove"){
+        fGame.sendMove(sock, arr[1]);
+      }else if(func == "endgame"){
+        sock.partner.partner = undefined;
+        sock.partner = undefined;
+      }else if(func == "addtodeck"){
+        fCard.addtoDeck(sock, arr);
+      }else if(func == "removefromdeck"){
+        fCard.removefromDeck(sock, arr);
+      }else if(func == "removefromlib"){
+        fCard.removefromLib(sock, arr);
+      }else if(func == "editpoints"){
+        fc.editPoints(arr);
+      }else if(func == "getpoints"){
+        fc.getPoints(sock, arr);
+      }else if(func == "getallcards"){
+        fCard.getAllCards(sock);
+      }else if(func == "addtolib"){
+        fCard.addtoLib(arr);
+      }else if(func == "regadmin"){
+        fAdmin.regAdmin(sock, arr);
+      }else if(func == "checkadmin"){
+        fAdmin.checkAdmin(sock, arr);
+      }else if(func == "showusers"){
+        fAdmin.showUsers(sock);
+      }
+      connection.close;
+    });
+    ///On close
+//    
+  
+    sock.on('error', function(data){
+      if(sock.partner != undefined){
+         console.log("Writing end game to partner");
+         sock.partner.write("End Game\n");
+         sock.partner.partner = null;
+      }
+      fc.setOffline(sock);
+      console.log('CLOSED: ' + sock.remoteAddress +' '+ sock.remotePort);
+    });
+    
+}).listen(PORT, HOST);
+
+
+console.log('Server listening on ' + HOST +':'+ PORT);
