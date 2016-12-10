@@ -60,17 +60,19 @@ public class SearchScreen extends MenuScreen {
 //    }
 
     public void joinGame(){
-        UserReader ur = new UserReader();
-        JSONObject j = new JSONObject();
+//        UserReader ur = new UserReader();
+//        JSONObject j = new JSONObject();
+//
+//        try {
+//            j.put("name", ur.readName());
+//        } catch (JSONException e) {
+//            log.e("JSONException");
+//        }
+//
+//        log.l("Emit 'joinGame'");
+//        game.getSocket().emit("joinGame", j);
 
-        try {
-            j.put("name", ur.readName());
-        } catch (JSONException e) {
-            log.e("JSONException");
-        }
-
-        log.l("Emit 'joinGame'");
-        game.getSocket().emit("joinGame", j);
+        game.getSocket().emit("joinGame", "Michael");
     }
 
 

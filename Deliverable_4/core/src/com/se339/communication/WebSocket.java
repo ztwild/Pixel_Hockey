@@ -19,8 +19,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.UnknownHostException;
 
-import io.socket.client.IO;
-import io.socket.client.Socket;
+import io.socket.engineio.client.Socket;
 import io.socket.emitter.Emitter;
 
 /**
@@ -36,7 +35,6 @@ public class WebSocket {
     public WebSocket(){
         l = new Log("WebSocket");
         connectSocket();
-        serverListener();
     }
 
     public void searchResponse(PixelHockeyGame game){
@@ -64,16 +62,47 @@ public class WebSocket {
     }
 
     public void connectSocket(){
+
         try{
             //socket = IO.socket("http://localhost:8000");
 
-            l.l("Connecting to Socket");
-            socket = IO.socket("http://192.168.1.107:8000");
-//            socket = IO.socket("http://192.168.1.107:8000");
-            socket.connect();
+            l.l("Trying to open new socket");
+            socket = new Socket("http://192.168.1.107:8000");
+
+            socket.on(Socket.EVENT_OPEN, new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+
+                }
+            }).on("playerJoin", new Emitter.Listener() {
+                @Override public void call(Object ... args) {
+                    JSONArray objects = (JSONArray) args[0];
+                    try {
+                        String p2name = (String) objects.getJSONObject(0).getString("name");
+                        l.v(p2name, "Player name");
+                        //setScreen(new GameScreen(PixelHockeyGame.g));
+                    } catch (Exception e) {
+                        l.e("Failed to start new game");
+                    }
+                }
+            }).on("message", new Emitter.Listener() {
+                @Override
+                public void call(Object ... args){
+                    JSONArray objects = (JSONArray) args[0];
+                    try {
+                        String message = (String) objects.getJSONObject(0).getString("message");
+                        l.v(message, "message");
+                        //setScreen(new GameScreen(PixelHockeyGame.g));
+                    } catch (Exception e) {
+                        l.e("Failed to start new game");
+                    }
+                }
+            })
+            ;
+            socket.open();
             l.l("socket connected");
         } catch (Exception e) {
-            l.e("Error connecting");
+            l.e("Disconnected from server");
             e.printStackTrace();
         }
     }
