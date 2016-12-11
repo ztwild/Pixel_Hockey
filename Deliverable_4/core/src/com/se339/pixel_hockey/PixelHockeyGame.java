@@ -77,7 +77,7 @@ public class PixelHockeyGame extends Game {
         font.dispose();
     }
 
-    public int getWinningScore(){ return winningscore; }
+    public int getWinningScore(){ return winningscore; } 
 
     public Socket getSocket(){
         return socket;
@@ -87,9 +87,9 @@ public class PixelHockeyGame extends Game {
         log.l("initializing socket connection");
 
         try {
-            socket = IO.socket("http://192.168.1.103:8000");
-            //socket = IO.socket("http://10.20.22.133:8000");
-            //socket = IO.socket("http://localhost:8000");
+//            socket = IO.socket("http://192.168.1.103:8000");
+//            socket = IO.socket("http://10.20.22.133:8000");
+            socket = IO.socket("http://localhost:8000");
 
             socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
                 @Override
