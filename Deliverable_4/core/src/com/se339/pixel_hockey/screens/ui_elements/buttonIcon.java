@@ -38,7 +38,7 @@ public class buttonIcon {
     public ImageButton getBtn() {
         Skin skin = new Skin();
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-        log.a("Making pixmap and skins");
+        //log.a("Making pixmap and skins");
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
         skin.add("white", new Texture(pixmap));
@@ -48,7 +48,7 @@ public class buttonIcon {
         style.down = skin.newDrawable("white", Color.DARK_GRAY);
 //        style.imageOver = new TextureRegionDrawable(friendText);
         style.imageUp = new TextureRegionDrawable(sprite);
-        log.a("Making Button");
+        //log.a("Making Button");
         ImageButton btn = new ImageButton(style);
         return btn;
     }

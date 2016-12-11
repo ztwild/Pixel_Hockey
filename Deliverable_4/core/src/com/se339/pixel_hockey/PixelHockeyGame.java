@@ -12,9 +12,8 @@ import com.se339.log.Log;
 import com.se339.pixel_hockey.screens.GameScreen;
 import com.se339.pixel_hockey.screens.MainMenuScreen;
 
-import org.json.JSONArray;
-
-import io.socket.engineio.client.Socket;
+import io.socket.client.Socket;
+import io.socket.client.IO;
 import io.socket.emitter.Emitter;
 
 public class PixelHockeyGame extends Game {
@@ -25,7 +24,8 @@ public class PixelHockeyGame extends Game {
     public BitmapFont font;
     private static int pHeight = 0;
     private static int pWidth = 0;
-    public static WebSocket wb;
+    public Socket socket;
+    public boolean setGameScreen = false;
 
     Log log;
 
@@ -40,9 +40,6 @@ public class PixelHockeyGame extends Game {
 
         pHeight = Gdx.graphics.getHeight();
         pWidth = Gdx.graphics.getWidth();
-        wb = new WebSocket();
-        //initserver();
-        //connect();
         g = this;
         setScreen(new MainMenuScreen(this));
     }
@@ -66,14 +63,48 @@ public class PixelHockeyGame extends Game {
     public int getWinningScore(){ return winningscore; }
 
     public Socket getSocket(){
-        return wb.getSocket();
+        return socket;
     }
 
-    public WebSocket getWB(){
-        return wb;
+    public void initsocket(){
+        log.l("initializing socket connection");
+
+        try {
+            socket = IO.socket("http://10.20.22.133:8000");
+
+            socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+                @Override
+                public void call (Object ... args) {
+                    log.l("Connected to server");
+                    socket.emit("Connection Ack");
+                }
+            }).on("startgame", new Emitter.Listener() {
+
+                @Override
+                public void call (Object ... arg) {
+                    log.l("Starting game");
+                    gameScreen();
+                }
+            }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
+
+                @Override
+                public void call (Object ... args) {
+                    log.l("Disconnected from server");
+                    socket = null;
+                }
+            });
+
+
+
+            socket.connect();
+            log.l("socket connected");
+        } catch (Exception e) {
+            log.e("could not connect socket");
+            e.printStackTrace();
+        }
     }
 
-    public void initserver(){
-
+    public void gameScreen(){
+        setGameScreen = true;
     }
 }

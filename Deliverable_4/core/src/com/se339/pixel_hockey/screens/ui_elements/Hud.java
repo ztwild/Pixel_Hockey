@@ -34,6 +34,7 @@ public class Hud extends Table {
         buttonIcon statIcon = new buttonIcon(FileList.image_stat_icon);
         buttonIcon gameIcon = new buttonIcon(FileList.image_game_icon);
         buttonIcon homeIcon = new buttonIcon(FileList.image_home_icon);
+        buttonIcon connIcon = new buttonIcon(FileList.image_home_icon);
 
 //        log.a("adding to hud");
 //        hud = new Table();
@@ -66,10 +67,19 @@ public class Hud extends Table {
             }
         });
 
+        ImageButton connBtn = connIcon.getBtn();
+        connBtn.addListener(new ChangeListener(){
+            public void changed (ChangeEvent event, Actor actor) {
+                initConn();
+            }
+        });
+
         this.add(homeBtn);
         this.add(friendBtn);
         this.add(gameBtn);
         this.add(statBtn);
+        this.add(connBtn);
+
 //        stage.addActor(hud);
         this.setSize(width,120);
         this.setPosition(0, 0);
@@ -81,7 +91,7 @@ public class Hud extends Table {
 //        log.a("Relocating to home page");
         game.setScreen(new MainMenuScreen(game));
         if(onSearch){
-            game.wb.endSearch();
+            //game.endSearch();
         }
 //        game.dispose();
     }
@@ -90,7 +100,7 @@ public class Hud extends Table {
 //        log.a("Relocating to friends page");
         game.setScreen(new FriendScreen(game));
         if(onSearch){
-            game.wb.endSearch();
+            //game.wb.endSearch();
         }
 //        game.dispose();
     }
@@ -100,7 +110,7 @@ public class Hud extends Table {
         String s = null;
         game.setScreen(new StatScreen(game, s));
         if(onSearch){
-            game.wb.endSearch();
+//            game.wb.endSearch();
         }
 //        game.dispose();
     }
@@ -109,9 +119,13 @@ public class Hud extends Table {
 //        log.a("Finding Game");
         game.setScreen(new SearchScreen(game));
         if(onSearch){
-            game.wb.endSearch();
+//            game.wb.endSearch();
         }
 //        game.dispose();
+    }
+
+    public void initConn(){
+        game.initsocket();
     }
 
 

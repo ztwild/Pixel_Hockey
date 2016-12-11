@@ -27,7 +27,7 @@ public class SearchScreen extends MenuScreen {
 
         log = new Log("SearchScreen");
 
-        log.l("adding to Tile");
+        //log.l("adding to Tile");
         Table table = new Table();
         Label titleLabel = new Label("Searching for\nGame", skin);
         titleLabel.setFontScale(6,6);
@@ -40,6 +40,13 @@ public class SearchScreen extends MenuScreen {
         setRenderColor(0.1f, 0.3f, 0.5f, 1);
         joinGame();
     }
+
+    @Override
+    public void render(float delta) {
+        if (game.setGameScreen)
+            game.setScreen(new GameScreen(game));
+    }
+
 //
 //    public void searchGame(){
 //        log.l("Searching for game");
@@ -72,7 +79,8 @@ public class SearchScreen extends MenuScreen {
 //        log.l("Emit 'joinGame'");
 //        game.getSocket().emit("joinGame", j);
 
-        game.getSocket().emit("joinGame", "Michael");
+        log.l("sending 'joinGame' to server");
+        game.socket.emit("joinGame", "Michael");
     }
 
 
