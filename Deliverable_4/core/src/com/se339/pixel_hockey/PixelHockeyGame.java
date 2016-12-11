@@ -7,7 +7,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.se339.communication.WebSocket;
+//import com.se339.communication.WebSocket;
 import com.se339.log.Log;
 import com.se339.pixel_hockey.screens.GameScreen;
 import com.se339.pixel_hockey.screens.MainMenuScreen;
@@ -70,7 +70,7 @@ public class PixelHockeyGame extends Game {
         log.l("initializing socket connection");
 
         try {
-            socket = IO.socket("http://10.20.22.133:8000");
+            socket = IO.socket("http://localhost:8000");
 
             socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
                 @Override

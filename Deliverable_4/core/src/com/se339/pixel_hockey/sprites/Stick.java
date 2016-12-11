@@ -34,10 +34,9 @@ public abstract class Stick extends Sprites {
 
     private void init(){
         log = new Log("Stick");
-        initSprite((PixelHockeyGame.getWidth() / 2) / screen.getPPM(),
-                (PixelHockeyGame.getHeight() / 4) / screen.getPPM(),
-                100 / screen.getPPM(),
-                true);
+        float x = (PixelHockeyGame.getWidth() / 2) / screen.getPPM();
+        float y = (PixelHockeyGame.getHeight() / 4) / screen.getPPM();
+        initSprite(x, y, 100 / screen.getPPM(), true);
         defineStick();
     }
 

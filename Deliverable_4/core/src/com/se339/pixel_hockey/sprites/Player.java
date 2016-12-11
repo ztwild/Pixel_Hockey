@@ -32,9 +32,11 @@ public class Player extends Stick{
     private void init(short player){
         log = new Log("Player");
         if (player == ContactBits.PLAYER2){
-            canHit = false;
-            setPosition((PixelHockeyGame.getWidth() / 2) / screen.getPPM(),
-                    3* (PixelHockeyGame.getHeight() / 4) / screen.getPPM());
+            canHit = true;
+//            setPosition((PixelHockeyGame.getWidth() / 2) / screen.getPPM(),
+//                    3* (PixelHockeyGame.getHeight() / 4) / screen.getPPM());
+            initSprite((PixelHockeyGame.getWidth() / 2) / screen.getPPM(),
+                    (3* PixelHockeyGame.getHeight() / 4) / screen.getPPM(), 100 / screen.getPPM(), true);
         }
         else
             canHit = true;
@@ -85,20 +87,36 @@ public class Player extends Stick{
 //            log.g(pos[1], xy[1], "Puck y", "Stick y", "");
 
             //log.l("Puck-Stick Collision");
+//            if (pos[0] >= xy[0]) {
+//                right = true;
+//                xy[0] -= screen.getPlayer().getSize() / 4;
+//            } else {
+//                left = true;
+//                xy[0] += screen.getPlayer().getSize() / 4;
+//            }
+//
+//            if (pos[1] >= xy[1]) {
+//                up = true;
+//                xy[1] -= screen.getPlayer().getSize() / 4;
+//            } else {
+//                down = true;
+//                xy[1] += screen.getPlayer().getSize() / 4;
+//            }
+
             if (pos[0] >= xy[0]) {
                 right = true;
-                xy[0] -= screen.getPlayer().getSize() / 4;
+                xy[0] -= this.getSize() / 4;
             } else {
                 left = true;
-                xy[0] += screen.getPlayer().getSize() / 4;
+                xy[0] += this.getSize() / 4;
             }
 
             if (pos[1] >= xy[1]) {
                 up = true;
-                xy[1] -= screen.getPlayer().getSize() / 4;
+                xy[1] -= this.getSize() / 4;
             } else {
                 down = true;
-                xy[1] += screen.getPlayer().getSize() / 4;
+                xy[1] += this.getSize() / 4;
             }
 
             float xVel = 0f;

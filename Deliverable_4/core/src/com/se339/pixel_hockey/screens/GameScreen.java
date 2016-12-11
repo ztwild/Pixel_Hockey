@@ -46,6 +46,7 @@ public class GameScreen extends Screens {
     //sprites
     private ArrayList<Sprites> sprites;
     private Player player;
+    private Player oppPlayer;
     private Puck puck;
     private Goal usergoal;
     private Goal oppgoal;
@@ -87,21 +88,30 @@ public class GameScreen extends Screens {
                 (PixelHockeyGame.getWidth() / 2) / ppm, (PixelHockeyGame.getHeight() / 8) / ppm);
         oppgoal = new Goal(this, FileList.image_goal_opp,
                 (PixelHockeyGame.getWidth() / 2) / ppm, (7 * PixelHockeyGame.getHeight() / 8) / ppm);
+        oppPlayer = new Player(this, FileList.image_stick_green, ContactBits.PLAYER2);
 
         sprites = new ArrayList<Sprites>();
         sprites.add(player);
         sprites.add(puck);
         sprites.add(usergoal);
         sprites.add(oppgoal);
+        sprites.add(oppPlayer);
 
         Gdx.input.setInputProcessor(new InputHandler(this));
         gvalues = new GameValues(game, this);
 
     }
 
+    public Player[] getPlayers(){
+        Player[] players = {player, oppPlayer};
+        return players;
+    }
+
     public Player getPlayer(){
         return player;
     }
+
+
 
     public Puck getPuck() { return puck; }
     public float[] getPuckPosition() {
