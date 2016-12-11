@@ -23,12 +23,13 @@ io.on('connection', function(socket)
 			console.log("paired with partner");
 			io.emit('startgame', msg);
 			
-			//socket.partner = playerWaiting;
-			//playerWaiting.partner = socket;
+			socket.partner = playerWaiting;
+			playerWaiting.partner = socket;
 			
 			
 			//socket.write("startgame");
 			//playerWaiting.write("startgame");
+			playerWaiting = undefined;
 		}
     });
 
@@ -50,10 +51,7 @@ io.on('connection', function(socket)
     {
         console.log('Client disconnected with message: ' + msg);
     });
-
 });
-
-
 
 http.listen(8000, function(){
   console.log('listening on *:8000');

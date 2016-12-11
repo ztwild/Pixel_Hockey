@@ -135,7 +135,6 @@ public class GameScreen extends Screens {
         else
             puck.setVelocity(game.puckVelocity);
 
-
         try {
             if (game.opPosition == null)
                 oppPlayer.setPosition(0f, 0f);

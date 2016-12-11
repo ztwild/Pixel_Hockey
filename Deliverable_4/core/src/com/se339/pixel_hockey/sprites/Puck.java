@@ -167,7 +167,7 @@ public class Puck extends Sprites {
             //            log.d();
             //            log.d();
             player.sprite.setPosition(xy[0], xy[1]);
-
+            screen.updateInfo();
         }
     }
 
@@ -192,7 +192,6 @@ public class Puck extends Sprites {
         for(Player p : players){
             checkCollision(p);
         }
-        screen.updateInfo();
     }
 
     public float getSize(){
@@ -209,7 +208,6 @@ public class Puck extends Sprites {
                 x < reg[1] &&
                 y > reg[2] &&
                 y < reg[3]){
-
             return true;
         }
         return false;
