@@ -30,7 +30,6 @@ import java.util.ArrayList;
 public class GameScreen extends Screens {
 
     //Reference to our Game, used to set Screens
-    private PixelHockeyGame game;
     public static boolean alreadyDestroyed = false;
     public GameValues gvalues;
 
@@ -47,6 +46,7 @@ public class GameScreen extends Screens {
     private ArrayList<Sprites> sprites;
     private Player player;
     private Player oppPlayer;
+
     private Puck puck;
     private Goal usergoal;
     private Goal oppgoal;
@@ -83,6 +83,7 @@ public class GameScreen extends Screens {
 
         // create all sprites
         player = new Player(this, FileList.image_stick_blue, ContactBits.PLAYER1);
+
         puck = new Puck(this);
         usergoal = new Goal(this, FileList.image_goal_user,
                 (PixelHockeyGame.getWidth() / 2) / ppm, (PixelHockeyGame.getHeight() / 8) / ppm);
@@ -128,6 +129,9 @@ public class GameScreen extends Screens {
         world.step(dt, 6, 2);
         for (Sprites s : sprites)
             s.update(dt);
+
+        puck.setVelocity(game.puckVelocity);
+        oppPlayer.setPosition(game.opPosition.get(0), game.opPosition.get(1));
 
         gamecam.update();
     }

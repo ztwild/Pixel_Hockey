@@ -185,12 +185,15 @@ public class Puck extends Sprites {
             screen.goalScored();
 
         checkBounds();
+        //checkCollision(screen.getPlayer());
+
         Player[] players = screen.getPlayers();
         for(Player p : players){
             checkCollision(p);
         }
-//        checkCollision(screen.getPlayer())
+        screen.game.updateInfo();
 
+//        checkCollision(screen.getPlayer())
     }
 
     public float getSize(){

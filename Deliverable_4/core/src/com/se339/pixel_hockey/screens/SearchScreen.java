@@ -1,17 +1,21 @@
 package com.se339.pixel_hockey.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.se339.fileUtilities.UserReader;
 import com.se339.log.Log;
 import com.se339.pixel_hockey.PixelHockeyGame;
+import com.se339.pixel_hockey.sprites.Player;
+import com.se339.pixel_hockey.world.ContactBits;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
@@ -43,8 +47,29 @@ public class SearchScreen extends MenuScreen {
 
     @Override
     public void render(float delta) {
-        if (game.setGameScreen)
+        if (game.setGameScreen) {
+
+            // add an additional socket listener
+            game.socket.on("update", new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                    JSONArray objects = (JSONArray) args[0];
+                    try {
+                        // player 2 position
+                        game.opPosition = new ArrayList<Float>();
+                        game.opPosition.add((float) objects.getJSONObject(0).getDouble("x"));
+                        game.opPosition.add((float) objects.getJSONObject(0).getDouble("y"));
+
+                        // puck velocity
+                        game.puckVelocity = new Vector2((float) objects.getJSONObject(1)
+                                .getDouble("x"),
+                                (float) objects.getJSONObject(1).getDouble("x"));
+
+                    } catch(JSONException e){}
+                }
+            });
             game.setScreen(new GameScreen(game));
+        }
     }
 
 //
