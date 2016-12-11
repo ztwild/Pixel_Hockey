@@ -79,7 +79,7 @@ public class GameScreen extends Screens {
         //create our Box2D world, setting no gravity in X, -10 gravity in Y, and allow bodies to sleep
         world = new World(new Vector2(0, 0), false);
         //allows for debug lines of our box2d world.
-        b2dr = new Box2DDebugRenderer();
+//        b2dr = new Box2DDebugRenderer();
 
         // create all sprites
         player = new Player(this, FileList.image_stick_blue, ContactBits.PLAYER1);
@@ -130,8 +130,22 @@ public class GameScreen extends Screens {
         for (Sprites s : sprites)
             s.update(dt);
 
-        puck.setVelocity(game.puckVelocity);
-        oppPlayer.setPosition(game.opPosition.get(0), game.opPosition.get(1));
+        if (game.puckVelocity == null)
+            puck.setVelocity(new Vector2(0f,0f));
+        else
+            puck.setVelocity(game.puckVelocity);
+
+
+        try {
+            if (game.opPosition == null)
+                oppPlayer.setPosition(0f, 0f);
+            else
+                oppPlayer.setPosition(game.opPosition.get(0), game.opPosition.get(1));
+        } catch (Exception e) {
+            log.v(oppPlayer, "oppPlayer");
+            log.v(game.opPosition,"opPosition");
+            e.printStackTrace();
+        }
 
         gamecam.update();
     }
@@ -147,7 +161,7 @@ public class GameScreen extends Screens {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //renderer our Box2DDebugLines
-        b2dr.render(world, gamecam.combined);
+//        b2dr.render(world, gamecam.combined);
 
         game.batch.setProjectionMatrix(gamecam.combined);
         game.batch.begin();
@@ -177,7 +191,7 @@ public class GameScreen extends Screens {
     public void dispose() {
         super.dispose();
         world.dispose();
-        b2dr.dispose();
+//        b2dr.dispose();
     }
 
     /******************************************************************
@@ -235,5 +249,14 @@ public class GameScreen extends Screens {
     }
 
     public World getWorld() { return world; }
+
+    public void updateInfo(){
+        game.puckVelocity = puck.body.getLinearVelocity();
+        game.opPosition = new ArrayList<Float>();
+        game.opPosition.add(oppPlayer.posX);
+        game.opPosition.add(oppPlayer.posY);
+
+        game.updateInfo();
+    }
 
 }

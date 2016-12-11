@@ -137,6 +137,7 @@ public class Player extends Stick{
 //            log.d();
 //            log.d();
             screen.getPuck().setVelocity(xVel, yVel);
+            screen.updateInfo();
         }
         return xy;
     }

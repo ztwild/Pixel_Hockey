@@ -29,10 +29,22 @@ io.on('connection', function(socket)
 			
 			//socket.write("startgame");
 			//playerWaiting.write("startgame");
-			playerWaiting = undefined;
 		}
     });
 
+	socket.on('update', function(obj)
+    {
+      
+		//console.log("update");
+		//io.emit('startgame', msg);
+		console.log('position x: ' + obj[0].x);
+		console.log('position y: ' + obj[0].y);
+		console.log('position x: ' + obj[1].x);
+		console.log('position y: ' + obj[1].y);
+
+		socket.broadcast.emit('update', obj);
+    });
+	
 
     socket.on('disconnect', function(msg)
     {
@@ -40,6 +52,8 @@ io.on('connection', function(socket)
     });
 
 });
+
+
 
 http.listen(8000, function(){
   console.log('listening on *:8000');

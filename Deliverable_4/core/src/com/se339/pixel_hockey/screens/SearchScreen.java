@@ -54,18 +54,25 @@ public class SearchScreen extends MenuScreen {
                 @Override
                 public void call(Object... args) {
                     JSONArray objects = (JSONArray) args[0];
+                    //log.v(objects, "JSONArray");
+
                     try {
+                        //log.l("Updating game information");
                         // player 2 position
                         game.opPosition = new ArrayList<Float>();
+                        //game.opPosition = (float) objects.getJSONArray(0).getJSONObject(0);
                         game.opPosition.add((float) objects.getJSONObject(0).getDouble("x"));
                         game.opPosition.add((float) objects.getJSONObject(0).getDouble("y"));
 
                         // puck velocity
                         game.puckVelocity = new Vector2((float) objects.getJSONObject(1)
                                 .getDouble("x"),
-                                (float) objects.getJSONObject(1).getDouble("x"));
+                                (float) objects.getJSONObject(1).getDouble("y"));
 
-                    } catch(JSONException e){}
+                    } catch(JSONException e){
+                        log.e("Updating game information");
+                        e.printStackTrace();
+                    }
                 }
             });
             game.setScreen(new GameScreen(game));

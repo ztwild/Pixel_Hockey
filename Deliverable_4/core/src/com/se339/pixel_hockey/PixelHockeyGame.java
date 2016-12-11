@@ -51,6 +51,12 @@ public class PixelHockeyGame extends Game {
 
         pHeight = Gdx.graphics.getHeight();
         pWidth = Gdx.graphics.getWidth();
+
+        puckVelocity = new Vector2(0f,0f);
+        opPosition = new ArrayList<Float>();
+        opPosition.add(0f);
+        opPosition.add(0f);
+
         g = this;
         setScreen(new MainMenuScreen(this));
     }
@@ -108,6 +114,7 @@ public class PixelHockeyGame extends Game {
             });
 
             socket.connect();
+
             log.l("socket connected");
         } catch (Exception e) {
             log.e("could not connect socket");
@@ -120,14 +127,40 @@ public class PixelHockeyGame extends Game {
     }
 
     public void updateInfo(){
-        log.l("sending game update to server");
+        //log.l("sending game update to server");
+
         JSONArray o = new JSONArray();
         try {
-            o.put(opPosition);
-            o.put(puckVelocity);
+            JSONObject p = new JSONObject();
+
+            try {
+                p.put("x", opPosition.get(0));
+                p.put("y", opPosition.get(1));
+            } catch (Exception e) {
+                log.v(p, "json object");
+                log.v(opPosition, "opPosition");
+                e.printStackTrace();
+            }
+
+            JSONObject v = new JSONObject();
+
+            try {
+                v.put("x", puckVelocity.x);
+                v.put("y", puckVelocity.y);
+
+            } catch (Exception e) {
+                log.v(v, "json object");
+                log.v(opPosition, "puckvelocity");
+                e.printStackTrace();
+            }
+
+            o.put(p);
+            o.put(v);
+
             socket.emit("update", o);
         } catch (Exception e) {
             log.e("Update Info");
+            e.printStackTrace();
         }
     }
 }

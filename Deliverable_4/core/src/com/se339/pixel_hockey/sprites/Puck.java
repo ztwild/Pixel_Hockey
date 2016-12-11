@@ -111,6 +111,7 @@ public class Puck extends Sprites {
             yVel = body.getLinearVelocity().y;
 
         setVelocity(new Vector2(xVel, yVel));
+        screen.updateInfo();
     }
 
     public void checkCollision(Player player) {
@@ -191,9 +192,7 @@ public class Puck extends Sprites {
         for(Player p : players){
             checkCollision(p);
         }
-        screen.game.updateInfo();
-
-//        checkCollision(screen.getPlayer())
+        screen.updateInfo();
     }
 
     public float getSize(){
