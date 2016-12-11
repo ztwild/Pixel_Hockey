@@ -73,11 +73,14 @@ public abstract class Stick extends Sprites {
 
         //log.l("Inverting Y-coordinate");
         //log.g(xy[0],xy[1],"posX", "posY", "move() Called");
+        log.d();
+        System.out.println("-_-_-_-_-_-::: "+xy[0]+" ::::: "+xy[1]+" :::-_-_-_-_-_-");
+
 
         posX = xy[0];
         posY = xy[1];
         defineStick();
-        screen.updateInfo();
+        screen.updateInfo(posX, posY);
         //log.g(body.getPosition().x, body.getPosition().y, "Stick X", "Stick Y", "New Stick Position");
     }
 

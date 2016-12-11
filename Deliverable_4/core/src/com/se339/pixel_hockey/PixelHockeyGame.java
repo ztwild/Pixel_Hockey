@@ -142,20 +142,58 @@ public class PixelHockeyGame extends Game {
                 e.printStackTrace();
             }
 
-//            JSONObject v = new JSONObject();
-//
-//            try {
-//                v.put("x", puckVelocity.x);
-//                v.put("y", puckVelocity.y);
-//
-//            } catch (Exception e) {
-//                log.v(v, "json object");
-//                log.v(opPosition, "puckvelocity");
-//                e.printStackTrace();
-//            }
+            JSONObject v = new JSONObject();
+
+            try {
+                v.put("x", puckVelocity.x);
+                v.put("y", puckVelocity.y);
+
+            } catch (Exception e) {
+                log.v(v, "json object");
+                log.v(opPosition, "puckvelocity");
+                e.printStackTrace();
+            }
 
             o.put(p);
-//            o.put(v);
+            o.put(v);
+
+            socket.emit("update", o);
+        } catch (Exception e) {
+            log.e("Update Info");
+            e.printStackTrace();
+        }
+    }
+
+    public void updateInfo(float x, float y){
+        //log.l("sending game update to server");
+
+        JSONArray o = new JSONArray();
+        try {
+            JSONObject p = new JSONObject();
+
+            try {
+                p.put("x", x);
+                p.put("y", y);
+            } catch (Exception e) {
+                log.v(p, "json object");
+                log.v(opPosition, "opPosition");
+                e.printStackTrace();
+            }
+
+            JSONObject v = new JSONObject();
+
+            try {
+                v.put("x", puckVelocity.x);
+                v.put("y", puckVelocity.y);
+
+            } catch (Exception e) {
+                log.v(v, "json object");
+                log.v(opPosition, "puckvelocity");
+                e.printStackTrace();
+            }
+
+            o.put(p);
+            o.put(v);
 
             socket.emit("update", o);
         } catch (Exception e) {

@@ -63,6 +63,9 @@ public class GameScreen extends Screens {
 
     private Music music;
 
+    public float scalex;
+    public float scaley;
+
 //    private Array<Item> items;
 //    private LinkedBlockingQueue<ItemDef> itemsToSpawn;
 
@@ -86,6 +89,9 @@ public class GameScreen extends Screens {
         //initially set our gamcam to be centered correctly at the start of of map
         gamecam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
         //log.g(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, "GameCam X", "GameCam Y", "Setting Gamecam Position");
+
+        scalex = gamePort.getWorldWidth();
+        scaley = gamePort.getWorldHeight();
 
         //create our Box2D world, setting no gravity in X, -10 gravity in Y, and allow bodies to sleep
         world = new World(new Vector2(0, 0), false);
@@ -138,9 +144,7 @@ public class GameScreen extends Screens {
 
         //takes 1 step in the physics simulation(60 times per second)
         //world.step(1 / 120f, 6, 2);
-        world.step(dt, 6, 2);
-        for (Sprites s : sprites)
-            s.update(dt);
+
 
         if (game.puckVelocity == null)
             game.puckVelocity = new Vector2(0f, 0f);
@@ -162,7 +166,7 @@ public class GameScreen extends Screens {
             else {
                 if (game.opMoved) {
                     //log.g(game.opPosition.get(0), game.opPosition.get(1), "x", "y", "game.opPosition - update");
-                    oppPlayer.setPosition(game.opPosition.get(0), game.opPosition.get(1));
+                    //oppPlayer.setPosition(game.opPosition.get(0), game.opPosition.get(1));
                     oppPlayer.body.setTransform(game.opPosition.get(0), game.opPosition.get(1), 0f);
                 }
             }
@@ -171,6 +175,11 @@ public class GameScreen extends Screens {
             log.v(game.opPosition,"opPosition");
             e.printStackTrace();
         }
+
+        world.step(dt, 6, 2);
+
+        for (Sprites s : sprites)
+            s.update(dt);
 
         gamecam.update();
     }
@@ -217,6 +226,13 @@ public class GameScreen extends Screens {
                     game.opPosition.add(x);
                     game.opPosition.add(y);
                     game.opMoved = true;
+
+                    JSONObject o = arr.getJSONObject(1);
+                    x = -1 * (float) o.getDouble("x");
+                    y = -1 * (float) o.getDouble("y");
+                    game.puckVelocity = new Vector2(x,y);
+                    game.puckMoved = true;
+
 //                    oppPlayer.body.setTransform(x,y,0);
                 }catch(JSONException e){
                     e.printStackTrace();
@@ -304,14 +320,25 @@ public class GameScreen extends Screens {
         game.puckVelocity = puck.body.getLinearVelocity();
         game.opPosition = new ArrayList<Float>();
         Vector2 pos = player.body.getPosition();
-        float x = pos.x;
-        float y = pos.y;
+        float x = scalex - pos.x;
+        float y = scaley - pos.y;
         game.opPosition.add(x);
         game.opPosition.add(y);
 //        game.opPosition.add(oppPlayer.posX);
 //        game.opPosition.add(oppPlayer.posY);
 
         game.updateInfo();
+    }
+
+    public void updateInfo(float x, float y){
+        game.puckVelocity = puck.body.getLinearVelocity();
+        x = scalex - x;
+        y = scaley - y;
+
+//        game.opPosition.add(oppPlayer.posX);
+//        game.opPosition.add(oppPlayer.posY);
+
+        game.updateInfo(x,y);
     }
 
 }
