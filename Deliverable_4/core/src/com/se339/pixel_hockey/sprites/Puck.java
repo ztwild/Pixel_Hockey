@@ -92,24 +92,35 @@ public class Puck extends Sprites {
 
         boolean modified = false;
 
+        float sizex = screen.scalex;
+        float sizey = screen.scaley;
+
         //log.g(x,y, "x","y", "Puck - check bounds");
 
-        if (x < size || x > PixelHockeyGame.getWidth() / screen.getPPM() - size) {
+        if (x < size || x > sizex - size) {
             //log.g(x,y, "x", "y", "Puck checkBounds() - x out of bounds");
             xVel = vel;
-            if (x > PixelHockeyGame.getWidth() / screen.getPPM() - size)
+            if (x > sizex - size) {
                 xVel *= -1;
+                body.setTransform(sizex - size, y, 0);
+            }
+            else
+                body.setTransform(size, y, 0);
 
             modified = true;
         }
         else
             xVel = body.getLinearVelocity().x;
 
-        if (y < size || y > PixelHockeyGame.getHeight() / screen.getPPM() - size) {
+        if (y < size || y > sizey - size) {
             //log.g(x,y, "x", "y", "Puck checkBounds() - y out of bounds");
             yVel = vel;
-            if (y > PixelHockeyGame.getHeight() / screen.getPPM() - size)
+            if (y > sizey - size) {
                 yVel *= -1;
+                body.setTransform(x, sizey - size, 0);
+            }
+            else
+                body.setTransform(x, size, 0);
 
             modified = true;
         }
