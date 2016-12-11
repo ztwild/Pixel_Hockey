@@ -15,24 +15,20 @@ public class FriendReader {
     private ArrayList<String[]> friends;
     private static String line = "";
     private static String split = ",";
+    private Preferences pref =Gdx.app.getPreferences("Friends");;
 
-    public void init(){
-        Preferences pref = Gdx.app.getPreferences("Friend Info");
-        for(int i = 0; i < 26; i++){
-            pref.putString("player"+i, "ztwild");
-            pref.putInteger("win"+i, 4);
-            pref.putInteger("lose"+i, 3);
-        }
-        pref.flush();
+
+
+    public void clearFriends(){
+        pref.clear();
     }
 
     public ArrayList<String> getFriends(){
         ArrayList<String> arr = new ArrayList<String>();
-        Preferences pref = Gdx.app.getPreferences("Friend Info");
         boolean loop = true;
         for(int i = 0; i < 30; i++){
             String temp = pref.getString("player"+i);
-            if(temp.length() > 0){
+            if(temp == null){
                 int win = pref.getInteger("win"+i);
                 int lose = pref.getInteger("lose"+i);
                 temp = temp+"                      "+win+"                          "+lose;
@@ -46,10 +42,14 @@ public class FriendReader {
     public void editStat(String name, int winPoint){
         int losePoint = 1- winPoint;
         boolean newPlayer = true;
-        Preferences pref = Gdx.app.getPreferences("Friend Info");
         for(int i = 0; i < 30; i++){
             String temp = pref.getString("player"+i);
-            if(temp.equals(temp)){
+            if(temp == null){
+                pref.putString("player"+i, name);
+                pref.putInteger("win"+i, winPoint);
+                pref.putInteger("lose"+i, losePoint);
+                break;
+            } else if(temp.equals(temp)){
                 int wintemp = pref.getInteger("win"+i);
                 pref.putInteger("win"+i, wintemp+winPoint);
                 int losetemp = pref.getInteger("lose"+i);
@@ -68,7 +68,6 @@ public class FriendReader {
 
 
     public void shift(){
-        Preferences pref = Gdx.app.getPreferences("Friend Info");
         for(int i = 0; i < 29; i++){
             String name = pref.getString("player"+(i+1));
             pref.putString("player"+i, name);

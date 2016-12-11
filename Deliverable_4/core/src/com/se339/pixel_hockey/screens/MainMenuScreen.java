@@ -5,6 +5,8 @@ package com.se339.pixel_hockey.screens;
  */
 
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -13,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.se339.fileUtilities.FriendReader;
 import com.se339.fileUtilities.UserReader;
 import com.se339.pixel_hockey.PixelHockeyGame;
 import com.se339.log.Log;
@@ -77,6 +80,13 @@ public class MainMenuScreen extends MenuScreen {
 
         createHUD();
         setRenderColor(0.1f, 0.3f, 0.5f, 1);
+
+        Preferences pref = Gdx.app.getPreferences("Friends");
+        String n = pref.getString("name");
+        System.out.println(n);
+        System.out.println(n == null);
+        System.out.println(n == "");
+
 
     }
 
