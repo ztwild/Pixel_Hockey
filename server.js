@@ -52,6 +52,17 @@ io.on('connection', function(socket)
 		socket.broadcast.emit('reset');
     });
 	
+	socket.on('endgame', function(obj)
+    {
+      
+		socket.broadcast.emit('endgame', obj);
+    });
+	
+	socket.on('name', function(obj)
+    {
+      
+		socket.broadcast.emit('name', obj);
+    });
 
     socket.on('disconnect', function(msg)
     {

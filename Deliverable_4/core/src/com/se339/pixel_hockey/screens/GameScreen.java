@@ -10,6 +10,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.se339.fileUtilities.FileList;
+import com.se339.fileUtilities.FriendReader;
+import com.se339.fileUtilities.UserReader;
 import com.se339.log.*;
 
 import com.badlogic.gdx.Gdx;
@@ -67,6 +69,11 @@ public class GameScreen extends Screens {
     public float scaley;
     public boolean resetpuck = false;
 
+    public boolean endgame = false;
+    public int userscore;
+    public int opScore;
+    public String opName;
+
 //    private Array<Item> items;
 //    private LinkedBlockingQueue<ItemDef> itemsToSpawn;
 
@@ -121,6 +128,10 @@ public class GameScreen extends Screens {
         gvalues = new GameValues(game, this);
         listenConfig();
 
+        UserReader u = new UserReader();
+
+        game.socket.emit("name", u.readName());
+
         log.g(scalex, scaley, "scalex", "scaley", "game width and height");
         log.v(puck.getSize(), "puck size");
         log.g(scalex - puck.getSize(), scaley - puck.getSize(), "x bound", "y bound", "Bounds");
@@ -151,12 +162,21 @@ public class GameScreen extends Screens {
         //takes 1 step in the physics simulation(60 times per second)
         //world.step(1 / 120f, 6, 2);
 
+        if (endgame){
+            int stat = (userscore > opScore ? 1 : 0);
+            FriendReader f = new FriendReader();
+            f.editStat(opName, stat);
+            gvalues.setScores(userscore, opScore);
+        }
+
 
         if (game.puckVelocity == null)
             game.puckVelocity = new Vector2(0f, 0f);
 
-        if (game.puckMoved)
+        if (game.puckMoved) {
             puck.setVelocity(game.puckVelocity);
+            game.puckMoved = false;
+        }
 
         try {
             if (game.opPosition == null) {
@@ -167,6 +187,7 @@ public class GameScreen extends Screens {
                 if (game.opMoved) {
                     oppPlayer.setPosition(oppPlayer.posX, oppPlayer.posY);
                     oppPlayer.body.setTransform(oppPlayer.posX, oppPlayer.posY, 0f);
+                    game.opMoved = false;
                 }
             }
             else {
@@ -174,6 +195,7 @@ public class GameScreen extends Screens {
                     //log.g(game.opPosition.get(0), game.opPosition.get(1), "x", "y", "game.opPosition - update");
                     //oppPlayer.setPosition(game.opPosition.get(0), game.opPosition.get(1));
                     oppPlayer.body.setTransform(game.opPosition.get(0), game.opPosition.get(1), 0f);
+                    game.opMoved = false;
                 }
             }
         } catch (Exception e) {
@@ -254,6 +276,33 @@ public class GameScreen extends Screens {
             public void call(Object... args) {
                 resetpuck = true;
             }
+        }).on("name", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject o = new JSONObject();
+                try {
+                    opName = (String) o.getString("name");
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }).on("endgame", new Emitter.Listener() {
+
+            @Override public void call(Object ... args) {
+
+                JSONObject o = (JSONObject) args[0];
+                UserReader u = new UserReader();
+                try {
+                    opScore = (int) o.getInt("p1");
+                    userscore = (int) o.getInt("p2");
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+                endgame = true;
+
+
+            }
         });
     }
 
@@ -306,6 +355,22 @@ public class GameScreen extends Screens {
     }
 
     public void endGame(String outcome){
+        JSONObject p = new JSONObject();
+        try {
+            UserReader u = new UserReader();
+
+            try {
+                p.put("p1", gvalues.getUserscore());
+                p.put("p2", gvalues.getOpponentscore());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            socket.emit("endgame", p);
+        } catch (Exception e) {
+            log.e("endgame");
+            e.printStackTrace();
+        }
         game.setScreen(new StatScreen(game, outcome));
     }
 
