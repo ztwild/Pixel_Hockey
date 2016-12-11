@@ -34,7 +34,7 @@ public class Hud extends Table {
         buttonIcon statIcon = new buttonIcon(FileList.image_stat_icon);
         buttonIcon gameIcon = new buttonIcon(FileList.image_game_icon);
         buttonIcon homeIcon = new buttonIcon(FileList.image_home_icon);
-        buttonIcon connIcon = new buttonIcon(FileList.image_home_icon);
+        buttonIcon connIcon = new buttonIcon(FileList.image_wifi_icon);
 
 //        log.a("adding to hud");
 //        hud = new Table();

@@ -34,6 +34,7 @@ public interface FileList {
     public static final String image_friends_icon     = DirectoryList.dImages + "friends.png";
     public static final String image_game_icon     = DirectoryList.dImages + "hockeySticks.png";
     public static final String image_home_icon     = DirectoryList.dImages + "home.png";
+    public static final String image_wifi_icon     = DirectoryList.dImages + "wifi.png";
 
     //files
     public static final String test_csv             = DirectoryList.dFiles + "test.csv";
