@@ -9,9 +9,9 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
 		config.title = "Pixel Hockey";
-		config.width = 3200;
-		config.height = 1800;
-		config.fullscreen = false;
+		config.width = 1800;
+		config.height = 3200;
+		config.fullscreen = true;
 
 		new LwjglApplication(new PixelHockeyGame(), config);
 	}

@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.badlogic.gdx.math.Vector2;
 
+import com.se339.fileUtilities.FriendReader;
 import com.se339.log.Log;
 import com.se339.pixel_hockey.screens.GameScreen;
 import com.se339.pixel_hockey.screens.MainMenuScreen;
@@ -58,6 +59,7 @@ public class PixelHockeyGame extends Game {
         puckMoved = false;
 
         g = this;
+
         setScreen(new MainMenuScreen(this));
     }
 
