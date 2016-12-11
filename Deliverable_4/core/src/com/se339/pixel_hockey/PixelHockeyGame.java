@@ -40,6 +40,7 @@ public class PixelHockeyGame extends Game {
     public ArrayList<Float> opPosition;
     public boolean opMoved;
     public boolean puckMoved;
+    public FriendReader fr;
 
     Log log;
 
@@ -59,7 +60,7 @@ public class PixelHockeyGame extends Game {
         puckMoved = false;
 
         g = this;
-
+        fr = new FriendReader();
         setScreen(new MainMenuScreen(this));
     }
 
@@ -92,7 +93,7 @@ public class PixelHockeyGame extends Game {
             // Michael's
 //            socket = IO.socket("http://192.168.1.103:8000");
 //            socket = IO.socket("http://10.20.22.133:8000");
-            socket = IO.socket("http:// 10.26.40.241:8000");
+            socket = IO.socket("http://10.26.40.241:8000");
 
             // Zach's
 //            socket = IO.socket("http://192.168.1.107:8000");

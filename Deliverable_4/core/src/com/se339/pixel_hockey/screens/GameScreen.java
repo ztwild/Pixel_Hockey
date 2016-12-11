@@ -164,8 +164,7 @@ public class GameScreen extends Screens {
 
         if (endgame){
             int stat = (userscore > opScore ? 1 : 0);
-            FriendReader f = new FriendReader();
-            f.editStat(opName, stat);
+            game.fr.editStat(opName, stat);
             gvalues.setScores(userscore, opScore);
         }
 

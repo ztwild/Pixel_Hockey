@@ -15,12 +15,22 @@ public class FriendReader {
     private ArrayList<String[]> friends;
     private static String line = "";
     private static String split = ",";
-    private Preferences pref =Gdx.app.getPreferences("Friends");;
+    private Preferences pref;
 
 
-
+    public FriendReader(){
+        pref =Gdx.app.getPreferences("Friends");
+        init();
+    }
     public void clearFriends(){
         pref.clear();
+    }
+
+    public void init(){
+        pref.putString("player1", "mdweems");
+        pref.putInteger("win1", 3);
+        pref.putInteger("lose1", 2);
+        pref.flush();
     }
 
     public ArrayList<String> getFriends(){
@@ -28,7 +38,7 @@ public class FriendReader {
         boolean loop = true;
         for(int i = 0; i < 30; i++){
             String temp = pref.getString("player"+i);
-            if(temp == null){
+            if(temp.length() != 0){
                 int win = pref.getInteger("win"+i);
                 int lose = pref.getInteger("lose"+i);
                 temp = temp+"                      "+win+"                          "+lose;
@@ -48,13 +58,15 @@ public class FriendReader {
                 pref.putString("player"+i, name);
                 pref.putInteger("win"+i, winPoint);
                 pref.putInteger("lose"+i, losePoint);
+                pref.flush();
                 break;
-            } else if(temp.equals(temp)){
+            } else if(temp.equals(name)){
                 int wintemp = pref.getInteger("win"+i);
                 pref.putInteger("win"+i, wintemp+winPoint);
                 int losetemp = pref.getInteger("lose"+i);
                 pref.putInteger("lose"+i, losetemp+losePoint);
                 newPlayer = false;
+                pref.flush();
                 break;
             }
         }if(newPlayer){
