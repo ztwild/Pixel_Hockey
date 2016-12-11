@@ -117,8 +117,11 @@ public class Puck extends Sprites {
         float pos[] = {body.getPosition().x, body.getPosition().y};
         float xy[] = {player.body.getPosition().x, player.body.getPosition().y};
 
-        float playersize = screen.getPlayer().getSize();
-        float radii = screen.getPlayer().getSize() + screen.getPuck().getSize();
+//        float playersize = screen.getPlayer().getSize();
+//        float radii = screen.getPlayer().getSize() + screen.getPuck().getSize();
+
+        float playersize = player.getSize();
+        float radii = player.getSize() + screen.getPuck().getSize();
 
         boolean left = false;
         boolean down = false;
@@ -180,8 +183,15 @@ public class Puck extends Sprites {
             screen.goalScored();
 
         checkBounds();
-        checkCollision(screen.getPlayer());
+        //checkCollision(screen.getPlayer());
+
+        Player[] players = screen.getPlayers();
+        for(Player p : players){
+            checkCollision(p);
+        }
         screen.game.updateInfo();
+
+//        checkCollision(screen.getPlayer())
     }
 
     public float getSize(){
