@@ -21,8 +21,10 @@ public interface FileList {
     public static final String image_stick_green     = DirectoryList.dImages_Stick + "green.png";
 
     // goal images
-    public static final String image_goal_opp        = DirectoryList.dImages_Goal + "opponent.png";
-    public static final String image_goal_user       = DirectoryList.dImages_Goal + "user.png";
+//    public static final String image_goal_opp        = DirectoryList.dImages_Goal + "opponent.png";
+//    public static final String image_goal_user       = DirectoryList.dImages_Goal + "user.png";
+    public static final String image_goal_opp        = DirectoryList.dImages_Goal + "goal.png";
+    public static final String image_goal_user       = DirectoryList.dImages_Goal + "goal.png";
 
     // sounds
     public static final String sound_drop           = DirectoryList.dSounds + "drop.wav";
