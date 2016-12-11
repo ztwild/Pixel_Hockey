@@ -132,8 +132,8 @@ public class Player extends Stick{
             if (down)
                 yVel *= -1f;
 
-            log.g(xVel, yVel, "xVel", "yVel", "Applying velocity to puck");
-            log.l("Puck Collision");
+//            log.g(xVel, yVel, "xVel", "yVel", "Applying velocity to puck");
+//            log.l("Puck Collision");
 //            log.d();
 //            log.d();
             screen.getPuck().setVelocity(xVel, yVel);
@@ -148,7 +148,7 @@ public class Player extends Stick{
     public boolean acceptableInput(float xy[]){
 
         float goalregion[] = screen.getUserGoal().getRegion();
-        log.g(xy[0], xy[1], "touch x coord", "touch y coord", "checking acceptable input");
+//        log.g(xy[0], xy[1], "touch x coord", "touch y coord", "checking acceptable input");
 
         boolean acceptable = false;
 
@@ -165,7 +165,7 @@ public class Player extends Stick{
             acceptable = false;
         }
 
-        log.v(acceptable, "Acceptable input");
+//        log.v(acceptable, "Acceptable input");
         return acceptable;
     }
 

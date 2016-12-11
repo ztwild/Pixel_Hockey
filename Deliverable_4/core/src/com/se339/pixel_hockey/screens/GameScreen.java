@@ -131,15 +131,29 @@ public class GameScreen extends Screens {
             s.update(dt);
 
         if (game.puckVelocity == null)
-            puck.setVelocity(new Vector2(0f,0f));
-        else
+            game.puckVelocity = new Vector2(0f, 0f);
+
+        if (game.puckMoved)
             puck.setVelocity(game.puckVelocity);
 
         try {
-            if (game.opPosition == null)
-                oppPlayer.setPosition(0f, 0f);
-            else
-                oppPlayer.setPosition(game.opPosition.get(0), game.opPosition.get(1));
+            if (game.opPosition == null) {
+                game.opPosition = new ArrayList<Float>();
+                game.opPosition.add(oppPlayer.posX);
+                game.opPosition.add(oppPlayer.posY);
+
+                if (game.opMoved) {
+                    oppPlayer.setPosition(oppPlayer.posX, oppPlayer.posY);
+                    oppPlayer.body.setTransform(oppPlayer.posX, oppPlayer.posY, 0f);
+                }
+            }
+            else {
+                if (game.opMoved) {
+                    log.g(game.opPosition.get(0), game.opPosition.get(1), "x", "y", "game.opPosition - update");
+                    oppPlayer.setPosition(game.opPosition.get(0), game.opPosition.get(1));
+                    oppPlayer.body.setTransform(game.opPosition.get(0), game.opPosition.get(1), 0f);
+                }
+            }
         } catch (Exception e) {
             log.v(oppPlayer, "oppPlayer");
             log.v(game.opPosition,"opPosition");
@@ -214,6 +228,8 @@ public class GameScreen extends Screens {
 //        puck.setPosition(x,y);
         puck.setVelocity(0,0);
         puck.body.setTransform(x,y,0);
+
+        game.puckMoved = false;
     }
 
     public void setPuckVelocity(Vector2 v){

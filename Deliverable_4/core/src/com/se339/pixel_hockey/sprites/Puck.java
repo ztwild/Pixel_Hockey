@@ -90,28 +90,33 @@ public class Puck extends Sprites {
         float x = body.getPosition().x;
         float y = body.getPosition().y;
 
+        boolean modified = false;
+
         //log.g(x,y, "x","y", "Puck - check bounds");
 
         if (x < size || x > PixelHockeyGame.getWidth() / screen.getPPM() - size) {
-            log.g(x,y, "x", "y", "Puck checkBounds() - x out of bounds");
+            //log.g(x,y, "x", "y", "Puck checkBounds() - x out of bounds");
             xVel = vel;
             if (x > PixelHockeyGame.getWidth() / screen.getPPM() - size)
                 xVel *= -1;
+
+            modified = true;
         }
         else
             xVel = body.getLinearVelocity().x;
 
         if (y < size || y > PixelHockeyGame.getHeight() / screen.getPPM() - size) {
-            log.g(x,y, "x", "y", "Puck checkBounds() - y out of bounds");
+            //log.g(x,y, "x", "y", "Puck checkBounds() - y out of bounds");
             yVel = vel;
             if (y > PixelHockeyGame.getHeight() / screen.getPPM() - size)
                 yVel *= -1;
+
+            modified = true;
         }
         else
             yVel = body.getLinearVelocity().y;
 
         setVelocity(new Vector2(xVel, yVel));
-        screen.updateInfo();
     }
 
     public void checkCollision(Player player) {
@@ -162,8 +167,8 @@ public class Puck extends Sprites {
 
             setVelocity(new Vector2(xVel, yVel));
 
-            log.g(xVel, yVel, "xVel", "yVel", "Applying velocity to puck");
-            log.l("Puck Collision");
+            //log.g(xVel, yVel, "xVel", "yVel", "Applying velocity to puck");
+            //log.l("Puck Collision");
             //            log.d();
             //            log.d();
             player.sprite.setPosition(xy[0], xy[1]);

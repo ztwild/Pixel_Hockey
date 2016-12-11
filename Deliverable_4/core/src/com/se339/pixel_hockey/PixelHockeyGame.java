@@ -37,6 +37,8 @@ public class PixelHockeyGame extends Game {
 
     public Vector2 puckVelocity;
     public ArrayList<Float> opPosition;
+    public boolean opMoved;
+    public boolean puckMoved;
 
     Log log;
 
@@ -52,10 +54,8 @@ public class PixelHockeyGame extends Game {
         pHeight = Gdx.graphics.getHeight();
         pWidth = Gdx.graphics.getWidth();
 
-        puckVelocity = new Vector2(0f,0f);
-        opPosition = new ArrayList<Float>();
-        opPosition.add(0f);
-        opPosition.add(0f);
+        opMoved = false;
+        puckMoved = false;
 
         g = this;
         setScreen(new MainMenuScreen(this));
