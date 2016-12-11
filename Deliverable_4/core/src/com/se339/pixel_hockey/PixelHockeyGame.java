@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.badlogic.gdx.math.Vector2;
-import com.se339.communication.WebSocket;
 
 import com.se339.log.Log;
 import com.se339.pixel_hockey.screens.GameScreen;
