@@ -65,6 +65,7 @@ public class GameScreen extends Screens {
 
     public float scalex;
     public float scaley;
+    public boolean resetpuck = false;
 
 //    private Array<Item> items;
 //    private LinkedBlockingQueue<ItemDef> itemsToSpawn;
@@ -93,6 +94,7 @@ public class GameScreen extends Screens {
         scalex = gamePort.getWorldWidth();
         scaley = gamePort.getWorldHeight();
 
+
         //create our Box2D world, setting no gravity in X, -10 gravity in Y, and allow bodies to sleep
         world = new World(new Vector2(0, 0), false);
         //allows for debug lines of our box2d world.
@@ -118,6 +120,10 @@ public class GameScreen extends Screens {
         Gdx.input.setInputProcessor(new InputHandler(this));
         gvalues = new GameValues(game, this);
         listenConfig();
+
+        log.g(scalex, scaley, "scalex", "scaley", "game width and height");
+        log.v(puck.getSize(), "puck size");
+        log.g(scalex - puck.getSize(), scaley - puck.getSize(), "x bound", "y bound", "Bounds");
 
     }
 
@@ -174,6 +180,11 @@ public class GameScreen extends Screens {
             log.v(oppPlayer, "oppPlayer");
             log.v(game.opPosition,"opPosition");
             e.printStackTrace();
+        }
+
+        if (resetpuck) {
+            resetPuck();
+            resetpuck = false;
         }
 
         world.step(dt, 6, 2);
@@ -238,6 +249,11 @@ public class GameScreen extends Screens {
                     e.printStackTrace();
                 }
             }
+        }).on("reset", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                resetpuck = true;
+            }
         });
     }
 
@@ -266,11 +282,13 @@ public class GameScreen extends Screens {
     public void updateScore(){
         gvalues.updateScore(game);
         resetPuck();
+        game.socket.emit("reset");
     }
 
     public void goalScored(){
         gvalues.goalScored();
         resetPuck();
+        game.socket.emit("reset");
     }
 
     public void resetPuck(){
@@ -339,6 +357,20 @@ public class GameScreen extends Screens {
 //        game.opPosition.add(oppPlayer.posY);
 
         game.updateInfo(x,y);
+    }
+
+    public void updateInfo(Vector2 v){
+
+        game.opPosition = new ArrayList<Float>();
+        Vector2 pos = player.body.getPosition();
+        float x = scalex - pos.x;
+        float y = scaley - pos.y;
+        game.opPosition.add(x);
+        game.opPosition.add(y);
+//        game.opPosition.add(oppPlayer.posX);
+//        game.opPosition.add(oppPlayer.posY);
+
+        game.updateInfo(v);
     }
 
 }

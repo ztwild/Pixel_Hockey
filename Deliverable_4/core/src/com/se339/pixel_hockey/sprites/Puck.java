@@ -84,8 +84,8 @@ public class Puck extends Sprites {
      */
     private void checkBounds(){
         float vel  = 5f;
-        float xVel = 0f;
-        float yVel = 0f;
+        float xVel = body.getLinearVelocity().x;
+        float yVel = body.getLinearVelocity().y;
 
         float x = body.getPosition().x;
         float y = body.getPosition().y;
@@ -97,7 +97,28 @@ public class Puck extends Sprites {
 
         //log.g(x,y, "x","y", "Puck - check bounds");
 
-        if (x < size || x > sizex - size) {
+        if ((x < size || x > sizex - size) && (y < size || y > sizey - size)){
+            xVel = vel;
+            yVel = vel;
+
+            if (x > sizex - size) {
+                xVel *= -1;
+                x = sizex - size;
+            }
+            else
+                x = size;
+
+            if (y > sizey - size) {
+                yVel *= -1;
+                y = sizey - size;
+            }
+            else
+                y = size;
+
+            body.setTransform(x, y, 0);
+            modified = true;
+        }
+       else if (x < size || x > sizex - size) {
             //log.g(x,y, "x", "y", "Puck checkBounds() - x out of bounds");
             xVel = vel;
             if (x > sizex - size) {
@@ -109,10 +130,7 @@ public class Puck extends Sprites {
 
             modified = true;
         }
-        else
-            xVel = body.getLinearVelocity().x;
-
-        if (y < size || y > sizey - size) {
+        else if (y < size || y > sizey - size) {
             //log.g(x,y, "x", "y", "Puck checkBounds() - y out of bounds");
             yVel = vel;
             if (y > sizey - size) {
@@ -124,10 +142,9 @@ public class Puck extends Sprites {
 
             modified = true;
         }
-        else
-            yVel = body.getLinearVelocity().y;
 
-        setVelocity(new Vector2(xVel, yVel));
+        if (modified)
+            setVelocity(new Vector2(xVel, yVel));
     }
 
     public void checkCollision(Player player) {
@@ -183,7 +200,7 @@ public class Puck extends Sprites {
             //            log.d();
             //            log.d();
             player.sprite.setPosition(xy[0], xy[1]);
-            screen.updateInfo();
+            screen.updateInfo(new Vector2(xVel, yVel));
         }
     }
 

@@ -54,19 +54,20 @@ public class InputHandler implements InputProcessor {
         // If user hits spacebar, reset everything back to normal
         if(keycode == Input.Keys.SPACE) {
 
-            int i = 0;
-            float x = (PixelHockeyGame.getWidth() / 2) / screen.getPPM();
-            float y = (PixelHockeyGame.getHeight() / 2) / screen.getPPM();
-            float z = (PixelHockeyGame.getHeight() / 4) / screen.getPPM();
-            for (Sprites s : screen.getSprites()) {
-                s.body.setLinearVelocity(0f, 0f);
+            float x = screen.scalex / 2;
+            float y = screen.scaley / 2;
 
-                if (i == 1) s.getSprite().setPosition(x, y);
-                else s.getSprite().setPosition(x,z);
+            //for (Sprites s : screen.getSprites()) {
+            screen.getPuck().body.setLinearVelocity(0f, 0f);
+            screen.getPuck().getSprite().setPosition(x, y);
+            screen.getPuck().body.setTransform(x, y, 0);
 
-                s.body.setTransform(0f, 0f, 0f);
-                i++;
-            }
+            screen.getPlayers()[0].setPosition(x, y / 2);
+            screen.getPlayers()[0].body.setTransform(x, y / 2, 0f);
+
+            screen.getPlayers()[1].setPosition(x, 3 * y / 2);
+            screen.getPlayers()[1].body.setTransform(x, 3 * y / 2, 0f);
+            //}
         }
 
 //        if(keycode == Input.Keys.COMMA) {

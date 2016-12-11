@@ -47,6 +47,11 @@ io.on('connection', function(socket)
 		socket.broadcast.emit('update', obj);
     });
 	
+	socket.on('reset', function()
+    {
+		socket.broadcast.emit('reset');
+    });
+	
 
     socket.on('disconnect', function(msg)
     {

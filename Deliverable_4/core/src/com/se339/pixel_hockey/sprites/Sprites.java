@@ -137,5 +137,9 @@ public abstract class Sprites{
         return sprite;
     }
 
+    public float getSize(){
+        return size;
+    }
+
 
 }

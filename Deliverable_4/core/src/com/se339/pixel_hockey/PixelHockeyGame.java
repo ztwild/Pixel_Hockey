@@ -87,9 +87,12 @@ public class PixelHockeyGame extends Game {
         log.l("initializing socket connection");
 
         try {
+            // Michael's
 //            socket = IO.socket("http://192.168.1.103:8000");
-//            socket = IO.socket("http://10.20.22.133:8000");
-            socket = IO.socket("http://192.168.1.107:8000");
+            socket = IO.socket("http://10.20.22.133:8000");
+
+            // Zach's
+//            socket = IO.socket("http://192.168.1.107:8000");
 
             socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
                 @Override
@@ -201,4 +204,44 @@ public class PixelHockeyGame extends Game {
             e.printStackTrace();
         }
     }
+
+    public void updateInfo(Vector2 vel){
+        //log.l("sending game update to server");
+
+        JSONArray o = new JSONArray();
+        try {
+            JSONObject p = new JSONObject();
+
+            try {
+                p.put("x", opPosition.get(0));
+                p.put("y", opPosition.get(1));
+            } catch (Exception e) {
+                log.v(p, "json object");
+                log.v(opPosition, "opPosition");
+                e.printStackTrace();
+            }
+
+            JSONObject v = new JSONObject();
+
+            try {
+                v.put("x", vel.x);
+                v.put("y", vel.y);
+
+            } catch (Exception e) {
+                log.v(v, "json object");
+                log.v(opPosition, "puckvelocity");
+                e.printStackTrace();
+            }
+
+            o.put(p);
+            o.put(v);
+
+            socket.emit("update", o);
+        } catch (Exception e) {
+            log.e("Update Info");
+            e.printStackTrace();
+        }
+    }
+
+
 }
