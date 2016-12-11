@@ -103,4 +103,17 @@ public class GameValues {
         UserReader ur = new UserReader();
         ur.setGameScores(userscore, opponentscore);
     }
+
+    public int getUserscore(){
+        return userscore;
+    }
+    public int getOpponentscore(){
+        return opponentscore;
+    }
+
+    public void setScores(int u, int o){
+        userscore = u;
+        opponentscore = o;
+        checkMaxPoints();
+    }
 }

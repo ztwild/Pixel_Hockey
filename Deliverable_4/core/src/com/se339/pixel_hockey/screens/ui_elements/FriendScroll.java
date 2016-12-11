@@ -38,7 +38,7 @@ public class FriendScroll extends Table {
             }
         };
         FriendReader fReader = new FriendReader();
-        fReader.init();
+//        fReader.init();
         Slider slider = new Slider(0, 100, 1, false, skin);
         slider.addListener(stopTouchDown); // Stops touchDown events from propagating to the FlickScrollPane.
         table.add(slider);

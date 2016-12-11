@@ -138,6 +138,7 @@ public class Player extends Stick{
 //            log.d();
             screen.getPuck().setVelocity(xVel, yVel);
             screen.updateInfo();
+            screen.game.puckMoved = true;
         }
         return xy;
     }

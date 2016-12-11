@@ -143,8 +143,12 @@ public class Puck extends Sprites {
             modified = true;
         }
 
-        if (modified)
+        if (modified) {
+            System.out.flush();
             setVelocity(new Vector2(xVel, yVel));
+            log.g(body.getLinearVelocity().x,body.getLinearVelocity().y, "xVel", "yVel", "bounds checking - new velocity");
+            screen.game.puckMoved = false;
+        }
     }
 
     public void checkCollision(Player player) {
@@ -201,6 +205,7 @@ public class Puck extends Sprites {
             //            log.d();
             player.sprite.setPosition(xy[0], xy[1]);
             screen.updateInfo(new Vector2(xVel, yVel));
+            screen.game.puckMoved = true;
         }
     }
 
