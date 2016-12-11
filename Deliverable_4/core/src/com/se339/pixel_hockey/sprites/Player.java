@@ -33,10 +33,11 @@ public class Player extends Stick{
         log = new Log("Player");
         if (player == ContactBits.PLAYER2){
             canHit = true;
+            float x = (PixelHockeyGame.getWidth() / 2) / screen.getPPM();
+            float y = 3* (PixelHockeyGame.getHeight() / 4) / screen.getPPM();
 //            setPosition((PixelHockeyGame.getWidth() / 2) / screen.getPPM(),
 //                    3* (PixelHockeyGame.getHeight() / 4) / screen.getPPM());
-            initSprite((PixelHockeyGame.getWidth() / 2) / screen.getPPM(),
-                    (3* PixelHockeyGame.getHeight() / 4) / screen.getPPM(), 100 / screen.getPPM(), true);
+            body.setTransform(x, y, 0);
         }
         else
             canHit = true;

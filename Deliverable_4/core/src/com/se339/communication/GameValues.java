@@ -1,6 +1,7 @@
 package com.se339.communication;
 
 import com.badlogic.gdx.math.Vector2;
+import com.se339.fileUtilities.UserReader;
 import com.se339.pixel_hockey.PixelHockeyGame;
 import com.se339.pixel_hockey.screens.GameScreen;
 import com.se339.pixel_hockey.world.ContactBits;
@@ -39,7 +40,6 @@ public class GameValues {
         opponentscore = 0;
         puckVelocity = new Vector2(0f,0f);
     }
-
     /*
      * Update the velocity of the puck - user
      */
@@ -87,10 +87,17 @@ public class GameValues {
 
     public void checkMaxPoints(){
         if (userscore >= game.getWinningScore()){
+            setPoints();
             screen.endGame("winner");
         }
         else if (opponentscore >= game.getWinningScore()){
+            setPoints();
             screen.endGame("loser");
         }
+    }
+
+    public void setPoints(){
+        UserReader ur = new UserReader();
+        ur.setGameScores(userscore, opponentscore);
     }
 }

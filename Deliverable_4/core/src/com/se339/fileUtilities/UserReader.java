@@ -43,7 +43,7 @@ public class UserReader {
 
     public void writeLoss(){
         Preferences pref = Gdx.app.getPreferences("User Info");
-        pref.putInteger("Loss", getLosses() + 1);
+        pref.putInteger("losses", getLosses() + 1);
         pref.flush();
     }
 
@@ -52,5 +52,26 @@ public class UserReader {
         Preferences pref = Gdx.app.getPreferences("User Info");
         int games = pref.getInteger("games");
         return games;
+    }
+
+    public void setGameScores(int myScore, int oppScore){
+        Preferences pref = Gdx.app.getPreferences("User Info");
+        pref.putInteger("myScore", myScore);
+        pref.putInteger("oppScore", oppScore);
+        if(myScore > oppScore){
+            writeWin();
+        }else if(myScore < oppScore){
+            writeLoss();
+        }
+    }
+
+    public int getMyScore(){
+        Preferences pref = Gdx.app.getPreferences("User Info");
+        return pref.getInteger("myScore");
+    }
+
+    public int getOppScore(){
+        Preferences pref = Gdx.app.getPreferences("User Info");
+        return pref.getInteger("oppScore");
     }
 }

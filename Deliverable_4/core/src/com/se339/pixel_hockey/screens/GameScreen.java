@@ -181,12 +181,22 @@ public class GameScreen extends Screens {
      */
 
     // user scored goal
-    public void goalScored(){
+    public void updateScore(){
         gvalues.updateScore(game);
+        resetPuck();
+    }
+
+    public void goalScored(){
+        gvalues.goalScored();
+        resetPuck();
     }
 
     public void resetPuck(){
-        puck = new Puck(this);
+        float x = (PixelHockeyGame.getWidth() / 2) / this.getPPM();
+        float y = (PixelHockeyGame.getHeight() / 2) / this.getPPM();
+//        puck.setPosition(x,y);
+        puck.setVelocity(0,0);
+        puck.body.setTransform(x,y,0);
     }
 
     public void setPuckVelocity(Vector2 v){
@@ -200,7 +210,6 @@ public class GameScreen extends Screens {
     public GameValues getGameValues(){
         return gvalues;
     }
-
 
     /*
      *******************************************************************/

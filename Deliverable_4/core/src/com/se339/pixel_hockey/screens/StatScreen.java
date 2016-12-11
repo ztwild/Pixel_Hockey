@@ -50,6 +50,15 @@ public class StatScreen extends MenuScreen{
         stats.add(gamesLabel);
         stats.row();
 
+        Label scoreLabel = new Label("My Score: "+ur.getMyScore(), skin);
+        scoreLabel.setFontScale(4,4);
+        stats.add(scoreLabel);
+        stats.row();
+        Label oppScoreLabel = new Label("Opponent Score: "+ur.getOppScore(), skin);
+        oppScoreLabel.setFontScale(4,4);
+        stats.add(oppScoreLabel);
+        stats.row();
+
         stats.setPosition(550,1000);
         stage.addActor(stats);
 

@@ -180,6 +180,8 @@ public class Puck extends Sprites {
         super.update(dt);
 
         if (checkGoal(screen.getOppGoal()))
+            screen.updateScore();
+        else if(checkGoal(screen.getUserGoal()))
             screen.goalScored();
 
         checkBounds();
