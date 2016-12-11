@@ -25,7 +25,16 @@ import com.se339.pixel_hockey.sprites.Puck;
 import com.se339.pixel_hockey.sprites.Sprites;
 import com.se339.pixel_hockey.world.ContactBits;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
+
+import static java.awt.SystemColor.info;
 
 public class GameScreen extends Screens {
 
@@ -50,6 +59,7 @@ public class GameScreen extends Screens {
     private Puck puck;
     private Goal usergoal;
     private Goal oppgoal;
+    private Socket socket;
 
     private Music music;
 
@@ -64,6 +74,7 @@ public class GameScreen extends Screens {
 
         this.game = game;
         ppm = 500;
+        socket = game.getSocket();
 
         //create cam used to follow mario through cam world
         gamecam = new OrthographicCamera();
@@ -100,6 +111,7 @@ public class GameScreen extends Screens {
 
         Gdx.input.setInputProcessor(new InputHandler(this));
         gvalues = new GameValues(game, this);
+        listenConfig();
 
     }
 
@@ -190,6 +202,25 @@ public class GameScreen extends Screens {
 
     }
 
+    public void listenConfig(){
+        socket.on("update", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONArray arr = (JSONArray) args[0];
+
+                try{
+                    JSONObject info = arr.getJSONObject(0);
+                    float x = (float) info.getDouble("x");
+                    float y = (float) info.getDouble("y");
+                    System.out.println("-_-_-_-_-_-::: "+x+" ::::: "+y+" :::-_-_-_-_-_-");
+                    oppPlayer.body.setTransform(x,y,0);
+                }catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     public boolean gameOver(){
         return false;
     }
@@ -268,8 +299,13 @@ public class GameScreen extends Screens {
     public void updateInfo(){
         game.puckVelocity = puck.body.getLinearVelocity();
         game.opPosition = new ArrayList<Float>();
-        game.opPosition.add(oppPlayer.posX);
-        game.opPosition.add(oppPlayer.posY);
+        Vector2 pos = player.body.getPosition();
+        float x = pos.x;
+        float y = pos.y;
+        game.opPosition.add(x);
+        game.opPosition.add(y);
+//        game.opPosition.add(oppPlayer.posX);
+//        game.opPosition.add(oppPlayer.posY);
 
         game.updateInfo();
     }

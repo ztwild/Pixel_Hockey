@@ -142,20 +142,20 @@ public class PixelHockeyGame extends Game {
                 e.printStackTrace();
             }
 
-            JSONObject v = new JSONObject();
-
-            try {
-                v.put("x", puckVelocity.x);
-                v.put("y", puckVelocity.y);
-
-            } catch (Exception e) {
-                log.v(v, "json object");
-                log.v(opPosition, "puckvelocity");
-                e.printStackTrace();
-            }
+//            JSONObject v = new JSONObject();
+//
+//            try {
+//                v.put("x", puckVelocity.x);
+//                v.put("y", puckVelocity.y);
+//
+//            } catch (Exception e) {
+//                log.v(v, "json object");
+//                log.v(opPosition, "puckvelocity");
+//                e.printStackTrace();
+//            }
 
             o.put(p);
-            o.put(v);
+//            o.put(v);
 
             socket.emit("update", o);
         } catch (Exception e) {

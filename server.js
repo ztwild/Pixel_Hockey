@@ -40,8 +40,8 @@ io.on('connection', function(socket)
 		//io.emit('startgame', msg);
 		console.log('position x: ' + obj[0].x);
 		console.log('position y: ' + obj[0].y);
-		console.log('velocity x: ' + obj[1].x);
-		console.log('velocity y: ' + obj[1].y);
+//		console.log('velocity x: ' + obj[1].x);
+//		console.log('velocity y: ' + obj[1].y);
 		console.log('');
 
 		socket.broadcast.emit('update', obj);

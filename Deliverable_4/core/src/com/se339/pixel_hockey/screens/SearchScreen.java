@@ -48,42 +48,42 @@ public class SearchScreen extends MenuScreen {
     @Override
     public void render(float delta) {
         if (game.setGameScreen) {
-
-            // add an additional socket listener
-            game.socket.on("update", new Emitter.Listener() {
-                @Override
-                public void call(Object... args) {
-                    JSONArray objects = (JSONArray) args[0];
-                    log.v(objects, "JSONArray");
-
-                    try {
-                        //log.l("Updating game information");
-                        // player 2 position
-                        game.opPosition = new ArrayList<Float>();
-
-                        log.g(objects.getJSONObject(0).getDouble("x"), objects.getJSONObject(0).getDouble("y"), "opposx", "opposy", "Receiving opponent position");
-
-                        //game.opPosition = (float) objects.getJSONArray(0).getJSONObject(0);
-                        game.opPosition.add((float) objects.getJSONObject(0).getDouble("x"));
-                        game.opPosition.add((float) objects.getJSONObject(0).getDouble("y"));
-
-                        log.g(objects.getJSONObject(1).getDouble("x"), objects.getJSONObject(1).getDouble("y"), "puck vel x", "puck vel y", "Receiving puck velocity");
-
-
-                        // puck velocity
-                        game.puckVelocity = new Vector2((float) objects.getJSONObject(1)
-                                .getDouble("x"),
-                                (float) objects.getJSONObject(1).getDouble("y"));
-
-                        game.opMoved = true;
-                        game.puckMoved = true;
-
-                    } catch(JSONException e){
-                        log.e("Updating game information");
-                        e.printStackTrace();
-                    }
-                }
-            });
+//
+//            // add an additional socket listener
+//            game.socket.on("update", new Emitter.Listener() {
+//                @Override
+//                public void call(Object... args) {
+//                    JSONArray objects = (JSONArray) args[0];
+//                    log.v(objects, "JSONArray");
+//
+//                    try {
+//                        //log.l("Updating game information");
+//                        // player 2 position
+//                        game.opPosition = new ArrayList<Float>();
+//
+//                        log.g(objects.getJSONObject(0).getDouble("x"), objects.getJSONObject(0).getDouble("y"), "opposx", "opposy", "Receiving opponent position");
+//
+//                        //game.opPosition = (float) objects.getJSONArray(0).getJSONObject(0);
+//                        game.opPosition.add((float) objects.getJSONObject(0).getDouble("x"));
+//                        game.opPosition.add((float) objects.getJSONObject(0).getDouble("y"));
+//
+//                        log.g(objects.getJSONObject(1).getDouble("x"), objects.getJSONObject(1).getDouble("y"), "puck vel x", "puck vel y", "Receiving puck velocity");
+//
+//
+//                        // puck velocity
+//                        game.puckVelocity = new Vector2((float) objects.getJSONObject(1)
+//                                .getDouble("x"),
+//                                (float) objects.getJSONObject(1).getDouble("y"));
+//
+//                        game.opMoved = true;
+//                        game.puckMoved = true;
+//
+//                    } catch(JSONException e){
+//                        log.e("Updating game information");
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
             game.setScreen(new GameScreen(game));
         }
     }
@@ -101,13 +101,13 @@ public class SearchScreen extends MenuScreen {
 //
 //
 //    }
-
+//
 //    @Override
 //    public void render(float delta) {
 //        super.render(delta);
 //    }
 
-    public void joinGame(){
+    public void joinGame() {
 //        UserReader ur = new UserReader();
 //        JSONObject j = new JSONObject();
 //
@@ -120,8 +120,8 @@ public class SearchScreen extends MenuScreen {
 //        log.l("Emit 'joinGame'");
 //        game.getSocket().emit("joinGame", j);
 
-        log.l("sending 'joinGame' to server");
-        game.socket.emit("joinGame", "Michael");
+            log.l("sending 'joinGame' to server");
+            game.socket.emit("joinGame", "Michael");
     }
 
 
