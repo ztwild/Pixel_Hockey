@@ -7,10 +7,17 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.se339.communication.WebSocket;
 import com.se339.log.Log;
 import com.se339.pixel_hockey.screens.GameScreen;
 import com.se339.pixel_hockey.screens.MainMenuScreen;
+import com.se339.pixel_hockey.sprites.Player;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import io.socket.client.Socket;
 import io.socket.client.IO;
@@ -26,6 +33,9 @@ public class PixelHockeyGame extends Game {
     private static int pWidth = 0;
     public Socket socket;
     public boolean setGameScreen = false;
+
+    public Vector2 puckVelocity;
+    public ArrayList<Float> opPosition;
 
     Log log;
 
@@ -94,8 +104,6 @@ public class PixelHockeyGame extends Game {
                 }
             });
 
-
-
             socket.connect();
             log.l("socket connected");
         } catch (Exception e) {
@@ -106,5 +114,17 @@ public class PixelHockeyGame extends Game {
 
     public void gameScreen(){
         setGameScreen = true;
+    }
+
+    public void updateInfo(){
+        log.l("sending game update to server");
+        JSONArray o = new JSONArray();
+        try {
+            o.put(opPosition);
+            o.put(puckVelocity);
+            socket.emit("update", o);
+        } catch (Exception e) {
+            log.e("Update Info");
+        }
     }
 }

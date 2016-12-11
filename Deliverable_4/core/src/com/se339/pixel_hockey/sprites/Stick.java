@@ -78,7 +78,7 @@ public abstract class Stick extends Sprites {
         posX = xy[0];
         posY = xy[1];
         defineStick();
-
+        screen.game.updateInfo();
         //log.g(body.getPosition().x, body.getPosition().y, "Stick X", "Stick Y", "New Stick Position");
     }
 

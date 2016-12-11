@@ -181,6 +181,7 @@ public class Puck extends Sprites {
 
         checkBounds();
         checkCollision(screen.getPlayer());
+        screen.game.updateInfo();
     }
 
     public float getSize(){
