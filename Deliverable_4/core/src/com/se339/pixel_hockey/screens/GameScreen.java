@@ -161,7 +161,7 @@ public class GameScreen extends Screens {
             }
             else {
                 if (game.opMoved) {
-                    log.g(game.opPosition.get(0), game.opPosition.get(1), "x", "y", "game.opPosition - update");
+                    //log.g(game.opPosition.get(0), game.opPosition.get(1), "x", "y", "game.opPosition - update");
                     oppPlayer.setPosition(game.opPosition.get(0), game.opPosition.get(1));
                     oppPlayer.body.setTransform(game.opPosition.get(0), game.opPosition.get(1), 0f);
                 }
@@ -213,7 +213,11 @@ public class GameScreen extends Screens {
                     float x = (float) info.getDouble("x");
                     float y = (float) info.getDouble("y");
                     System.out.println("-_-_-_-_-_-::: "+x+" ::::: "+y+" :::-_-_-_-_-_-");
-                    oppPlayer.body.setTransform(x,y,0);
+                    game.opPosition = new ArrayList<Float>();
+                    game.opPosition.add(x);
+                    game.opPosition.add(y);
+                    game.opMoved = true;
+//                    oppPlayer.body.setTransform(x,y,0);
                 }catch(JSONException e){
                     e.printStackTrace();
                 }
