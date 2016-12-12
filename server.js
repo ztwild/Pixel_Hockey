@@ -60,7 +60,7 @@ io.on('connection', function(socket)
 	
 	socket.on('name', function(obj)
     {
-      
+        console.log("Emitting name: "+obj);
 		socket.broadcast.emit('name', obj);
     });
 
@@ -71,7 +71,7 @@ io.on('connection', function(socket)
 });
 
 http.listen(8000, function(){
-  console.log('listening on *:8000');
+  console.log('hello listening on *:8000');
 });
 
 

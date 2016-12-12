@@ -278,9 +278,9 @@ public class GameScreen extends Screens {
         }).on("name", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                JSONObject o = new JSONObject();
+
                 try {
-                    opName = (String) o.getString("name");
+                    opName = (String) args[0];
                 } catch (Exception e){
                     e.printStackTrace();
                 }
