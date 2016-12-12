@@ -20,18 +20,11 @@ public class FriendReader {
 
     public FriendReader(){
         pref =Gdx.app.getPreferences("Friends");
-        init();
     }
     public void clearFriends(){
         pref.clear();
     }
 
-    public void init(){
-        pref.putString("player1", "mdweems");
-        pref.putInteger("win1", 3);
-        pref.putInteger("lose1", 2);
-        pref.flush();
-    }
 
     public ArrayList<String> getFriends(){
         ArrayList<String> arr = new ArrayList<String>();
